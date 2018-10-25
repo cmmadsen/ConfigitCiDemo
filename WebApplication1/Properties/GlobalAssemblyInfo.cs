@@ -7,9 +7,11 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System;
 
-
-[assembly: AssemblyTitle( "WebApplication1" )]
-[assembly: AssemblyProduct( "WebApplication1" )]
-
-[assembly: Guid( "37711f7b-0bc0-40ab-9dad-62e3f8ef3de1" )]
+[assembly: AssemblyCompany("Configit")]
+[assembly: AssemblyVersion("2.1.0.0")]
+[assembly: AssemblyFileVersion("2.1.0.0")]
+[assembly: AssemblyInformationalVersion("2.1.0.0")]
+[assembly: AssemblyCopyright("Copyright Configit A/S 2018")]
+[assembly: ComVisible(false)]
+[assembly: CLSCompliant(false)]
 

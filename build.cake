@@ -7,15 +7,11 @@
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 var solution = "./WebApplication1.sln";
-var branch = EnvironmentVariable("APPVEYOR_REPO_BRANCH") ?? "master";
 var major = "2";
-var minor = "0";
-var patch = "1";
-var buildNumber = EnvironmentVariable("APPVEYOR_BUILD_NUMBER") ?? "0";
-var commitId = EnvironmentVariable("APPVEYOR_REPO_COMMIT") ?? "0";
-var version = $"{major}.{minor}.{patch}.{buildNumber}";
-var appveyor = EnvironmentVariable("APPVEYOR");
-var appveyorJobId = EnvironmentVariable("APPVEYOR_JOB_ID");
+var minor = "1";
+var patch = "0";
+var buildNumber = EnvironmentVariable("BUILD_NUMBER") ?? "0";
+var version = string.Format("{0}.{1}.{2}.{3}", major, minor, patch, buildNumber );
 
 //////////////////////////////////////////////////////////////////////
 // PREPARATION
@@ -31,7 +27,6 @@ var buildDir = Directory("./src/bin") + Directory(configuration);
 Task("CleanOnly")
     .Does(() =>
 {
-    Information("branch:" + branch);
     CleanDirectory(buildDir);
 });
 
@@ -49,7 +44,9 @@ Task("BuildOnly")
       MSBuild(solution, settings => {
         settings.SetConfiguration(configuration);
         settings.SetMaxCpuCount(0);
-        settings.SetVerbosity(Verbosity.Minimal);
+        settings.SetVerbosity(Verbosity.Minimal).
+			WithProperty("RunOctoPack", "true").
+			WithProperty("OctoPackUseFileVersion", "true");
       });
 });
 
@@ -57,17 +54,15 @@ Task("BuildOnly")
 Task("CreateAssemblyInfoOnly" )
     .Does(() => {
 
-    if (appveyor != null) {
-    CreateAssemblyInfo("build/GlobalAssemblyInfo.cs", new AssemblyInfoSettings {
+    CreateAssemblyInfo("./GlobalAssemblyInfo.cs", new AssemblyInfoSettings {
     Version = version,
-    InformationalVersion = $"{version}-{branch}-{commitId}",
+    InformationalVersion = version,
     FileVersion = version,
     Company = "Configit",
     ComVisible = false,
     CLSCompliant  = false,
     Copyright = string.Format("Copyright Configit A/S {0}", DateTime.Now.Year)
     });
-    }
 });
 
 Task("TestsOnly")
@@ -93,6 +88,7 @@ Task("RestoreNuGetPackages")
     
 Task("Build")
     .IsDependentOn("RestoreNuGetPackages")
+    .IsDependentOn("CreateAssemblyInfoOnly")
     .IsDependentOn("BuildOnly");
     
 Task("Tests")
