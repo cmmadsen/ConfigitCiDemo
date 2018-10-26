@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 using System;
 
 [assembly: AssemblyCompany("Configit")]
-[assembly: AssemblyVersion("2.1.0.0")]
-[assembly: AssemblyFileVersion("2.1.0.0")]
-[assembly: AssemblyInformationalVersion("2.1.0.0")]
+[assembly: AssemblyVersion("3.0.1.1")]
+[assembly: AssemblyFileVersion("3.0.1.1")]
+[assembly: AssemblyInformationalVersion("3.0.1.1")]
 [assembly: AssemblyCopyright("Copyright Configit A/S 2018")]
 [assembly: ComVisible(false)]
 [assembly: CLSCompliant(false)]

@@ -9,7 +9,7 @@ var configuration = Argument("configuration", "Release");
 var solution = "./WebApplication1.sln";
 var major = "3";
 var minor = "0";
-var buildNumber = EnvironmentVariable("BUILD_NUMBER") ?? "0";
+var buildNumber = EnvironmentVariable("BUILD_NUMBER") ?? "1";
 var version = string.Format("{0}.{1}.{2}.{3}", major, minor, buildNumber, buildNumber );
 
 //////////////////////////////////////////////////////////////////////
@@ -53,7 +53,7 @@ Task("BuildOnly")
 Task("CreateAssemblyInfoOnly" )
     .Does(() => {
 
-    CreateAssemblyInfo("./GlobalAssemblyInfo.cs", new AssemblyInfoSettings {
+    CreateAssemblyInfo("GlobalAssemblyInfo.cs", new AssemblyInfoSettings {
     Version = version,
     InformationalVersion = version,
     FileVersion = version,
