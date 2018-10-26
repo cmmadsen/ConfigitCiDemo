@@ -9,9 +9,8 @@ var configuration = Argument("configuration", "Release");
 var solution = "./WebApplication1.sln";
 var major = "3";
 var minor = "0";
-var patch = "0";
 var buildNumber = EnvironmentVariable("BUILD_NUMBER") ?? "0";
-var version = string.Format("{0}.{1}.{2}.{3}", major, minor, patch, buildNumber );
+var version = string.Format("{0}.{1}.{2}.{3}", major, minor, buildNumber, buildNumber );
 
 //////////////////////////////////////////////////////////////////////
 // PREPARATION
