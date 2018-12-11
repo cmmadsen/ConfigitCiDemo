@@ -8,7 +8,7 @@ var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 var solution = "./WebApplication1.sln";
 var major = "3";
-var minor = "0";
+var minor = "1";
 var buildNumber = EnvironmentVariable("BUILD_NUMBER") ?? "1";
 var version = string.Format("{0}.{1}.{2}.{3}", major, minor, buildNumber, buildNumber );
 
@@ -46,7 +46,19 @@ Task("BuildOnly")
         settings.SetMaxCpuCount(0);
         settings.SetVerbosity(Verbosity.Minimal).
 			WithProperty("RunOctoPack", "true").
-			WithProperty("OctoPackUseFileVersion", "true");
+			WithProperty("OctoPackUseFileVersion", "true").
+			WithProperty("target", "WindowsService").
+			WithProperty("target", "WebApplication1");
+      });
+      
+      // Use MSBuild
+      MSBuild(solution, settings => {
+        settings.SetConfiguration(configuration);
+        settings.SetMaxCpuCount(0);
+        settings.SetVerbosity(Verbosity.Minimal).
+			WithProperty("RunOctoPack", "true").
+			WithProperty("OctoPackUseFileVersion", "true").
+			WithProperty("target", "WindowsService");
       });
 });
 
